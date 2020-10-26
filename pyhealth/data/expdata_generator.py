@@ -209,7 +209,7 @@ class imagedata:
 
 class sequencedata:
 
-    def __init__(self, expdata_id, root_dir='.'):
+    def __init__(self, expdata_id, root_dir=None):
 
         """
         experiment data generat class for cms datasets 
@@ -224,8 +224,14 @@ class sequencedata:
         """
         self.expdata_id = expdata_id
         check_expdata_dir(expdata_id =  expdata_id)
-        self.root_dir = root_dir
-        self.expdata_dir = os.path.join(self.root_dir, 'experiments_data', self.expdata_id)
+        if root_dir is not None:
+            self.root_dir = root_dir
+            self.expdata_dir = os.path.join(self.root_dir, 'experiments_data', self.expdata_id)
+
+        else:
+            self.root_dir=''
+            self.expdata_dir = os.path.join(self.root_dir, 'experiments_data',
+                                            self.expdata_id)
 
         print(
             'Current ExpData_ID: {0} --- Target for MIMIC'.format(
