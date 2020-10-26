@@ -1,6 +1,5 @@
 import unittest
 import numpy as np
-import torch
 
 import os
 import shutil
@@ -18,29 +17,33 @@ from pyhealth.models.sequence.rf import RandomForest
 
 from pyhealth.data.expdata_generator import sequencedata as expdata_generator
 from pyhealth.evaluation.evaluator import func
+from zipfile import ZipFile
+
 
 class TestSequentialModel(unittest.TestCase):
-    
     expdata_id = 'test.sequence.model'
-    
+
     def test_01(self):
-        if os.path.exists('./experiments_data') is False:
-            os.mkdir('./experiments_data')
-        if os.path.exists('./datasets/mimic') is False:
-            z = zipfile.ZipFile("./datasets/mimic.zip", "r")
-            seq_x = []
-            label_y = []
-            for filename in z.namelist( ):
-                z.extract(filename,'./datasets')
+        if os.path.exists('experiments_data') is False:
+            os.mkdir('experiments_data')
+        if os.path.exists(os.path.join('datasets', 'mimic')) is False:
+            with ZipFile(os.path.join('datasets', 'mimic.zip'), 'r') as zip:
+                # # printing all the contents of the zip file
+                # zip.printdir()
+                # extracting all the files
+                print('Extracting mimic demo files now...')
+                zip.extractall()
+                print('Done!')
         cur_dataset = expdata_generator(self.expdata_id)
-        cur_dataset.get_exp_data(sel_task='mortality', data_root='./datasets/mimic')
+        cur_dataset.get_exp_data(sel_task='mortality',
+                                 data_root=os.path.join('datasets', 'mimic'))
 
     def test_02_lstm_cpu(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.lstm.gpu'
-        clf = LSTM(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
+        clf = LSTM(expmodel_id=expmodel_id,
+                   n_batchsize=20,
                    use_gpu=False,
                    n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
@@ -49,14 +52,14 @@ class TestSequentialModel(unittest.TestCase):
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_lstm_gpu(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.lstm.cpu'
-        clf = LSTM(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
+        clf = LSTM(expmodel_id=expmodel_id,
+                   n_batchsize=20,
                    use_gpu=True,
                    n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
@@ -65,78 +68,78 @@ class TestSequentialModel(unittest.TestCase):
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_gru(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.gru'
-        clf = GRU(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
-                   use_gpu=True,
-                   n_epoch=10)
+        clf = GRU(expmodel_id=expmodel_id,
+                  n_batchsize=20,
+                  use_gpu=True,
+                  n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
         clf.load_model()
         clf.inference(cur_dataset.test)
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_embedgru(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.embedgru'
-        clf = EmbedGRU(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
-                   use_gpu=True,
-                   n_epoch=10)
+        clf = EmbedGRU(expmodel_id=expmodel_id,
+                       n_batchsize=20,
+                       use_gpu=True,
+                       n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
         clf.load_model()
         clf.inference(cur_dataset.test)
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_dipole(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.dipole'
-        clf = Dipole(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
-                   use_gpu=True,
-                   n_epoch=10)
+        clf = Dipole(expmodel_id=expmodel_id,
+                     n_batchsize=20,
+                     use_gpu=True,
+                     n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
         clf.load_model()
         clf.inference(cur_dataset.test)
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_retain(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.retain'
-        clf = Retain(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
-                   use_gpu=True,
-                   n_epoch=10)
+        clf = Retain(expmodel_id=expmodel_id,
+                     n_batchsize=20,
+                     use_gpu=True,
+                     n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
         clf.load_model()
         clf.inference(cur_dataset.test)
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_raim(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.raim'
-        clf = RAIM(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
+        clf = RAIM(expmodel_id=expmodel_id,
+                   n_batchsize=20,
                    use_gpu=True,
                    n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
@@ -145,39 +148,39 @@ class TestSequentialModel(unittest.TestCase):
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_tlstm(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.tlstm'
-        clf = tLSTM(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
-                   use_gpu=True,
-                   n_epoch=10)
+        clf = tLSTM(expmodel_id=expmodel_id,
+                    n_batchsize=20,
+                    use_gpu=True,
+                    n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
         clf.load_model()
         clf.inference(cur_dataset.test)
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_stagenet(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.stagenet'
-        clf = StageNet(expmodel_id=expmodel_id, 
-                   n_batchsize=20, 
-                   use_gpu=True,
-                   n_epoch=10)
+        clf = StageNet(expmodel_id=expmodel_id,
+                       n_batchsize=20,
+                       use_gpu=True,
+                       n_epoch=10)
         clf.fit(cur_dataset.train, cur_dataset.valid)
         clf.load_model()
         clf.inference(cur_dataset.test)
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_xgboost(self):
         cur_dataset = expdata_generator(self.expdata_id)
@@ -190,7 +193,7 @@ class TestSequentialModel(unittest.TestCase):
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_rm(self):
         cur_dataset = expdata_generator(self.expdata_id)
@@ -203,18 +206,19 @@ class TestSequentialModel(unittest.TestCase):
         pred_results = clf.get_results()
         assert np.shape(pred_results['hat_y']) == np.shape(pred_results['y'])
         assert True not in np.isnan(pred_results['hat_y']).tolist()
-        assert True not in np.isnan(pred_results['hat_y']*0).tolist()
+        assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_03_delete(self):
-        shutil.rmtree(os.path.join('./experiments_data', self.expdata_id))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.lstm.cpu'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.lstm.gpu'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.gru'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.embedgru'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.dipole'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.retain'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.raim'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.tlstm'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.stagenet'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.xgboost'))
-        shutil.rmtree(os.path.join('./experiments_records', 'test.randomforest'))
+        shutil.rmtree(os.path.join('experiments_data', self.expdata_id))
+        shutil.rmtree(os.path.join('experiments_records', 'test.lstm.cpu'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.lstm.gpu'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.gru'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.embedgru'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.dipole'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.retain'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.raim'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.tlstm'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.stagenet'))
+        shutil.rmtree(os.path.join('experiments_records', 'test.xgboost'))
+        shutil.rmtree(
+            os.path.join('experiments_records', 'test.randomforest'))
