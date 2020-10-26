@@ -37,7 +37,7 @@ class TestSequentialModel(unittest.TestCase):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.get_exp_data(sel_task='mortality',
                                  data_root=os.path.join('datasets', 'mimic'))
-
+        print(os.getcwd())
     def test_02_lstm_cpu(self):
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
@@ -183,6 +183,7 @@ class TestSequentialModel(unittest.TestCase):
         assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_xgboost(self):
+        print(os.getcwd())
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.xgboost'
@@ -196,6 +197,7 @@ class TestSequentialModel(unittest.TestCase):
         assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
     def test_02_rm(self):
+        print(os.getcwd())
         cur_dataset = expdata_generator(self.expdata_id)
         cur_dataset.load_exp_data()
         expmodel_id = 'test.randomforest'
