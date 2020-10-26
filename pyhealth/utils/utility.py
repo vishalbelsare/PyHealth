@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A set of utility functions to support outlier detection.
+"""A set of utility functions to support data generation model.
 """
 # Author: Yue Zhao <zhaoy@cmu.edu>
 # License: BSD 2 clause

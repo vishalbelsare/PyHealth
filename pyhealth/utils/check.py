@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-
+"""A set of utility functions to support core PyHealth model.
+"""
 # Author: Zhi Qiao <mingshan_ai@163.com>
-
 # License: BSD 2 clause
 
 import os
 import numpy as np
 
+
 def check_expdata_dir(expdata_id):
-    """
-    Check whether the exp data folder  exist,
-        If not, will create the folder
+    """Check whether the exp data folder exists. If not,
+    will create the folder.
 
     Parameters
-
     ----------
     root_dir :  str,
         root dir of current project
@@ -30,13 +29,13 @@ def check_expdata_dir(expdata_id):
     if os.path.exists(exp_root) is False:
         os.mkdir(exp_root)
 
+
 def check_model_dir(expmodel_id):
     """
-    Check whether the checkouts/results folders of current experiment(exp_id) exist,
-        If not, will create both folders
+    Check whether the checkouts/results folders of current experiment(exp_id)
+    exist, If not, will create both folders
 
     Parameters
-
     ----------
     root_dir :  str,
         root dir of current project
@@ -59,9 +58,23 @@ def check_model_dir(expmodel_id):
     if os.path.exists(result_dir) is False:
         os.mkdir(result_dir)
 
-def label_check(y, hat_y = None, assign_task_type = None):
-    
-    def check_task_type(y, hat_y = None):
+
+def label_check(y, hat_y=None, assign_task_type=None):
+    """Helper function to infer task type by data label and identify potential
+    inconsistency in the data.
+
+    Parameters
+    ----------
+    y
+    hat_y
+    assign_task_type
+
+    Returns
+    -------
+
+    """
+
+    def check_task_type(y, hat_y=None):
         if hat_y is not None:
             try:
                 hat_y = np.array(hat_y).astype(float)
@@ -70,7 +83,8 @@ def label_check(y, hat_y = None, assign_task_type = None):
                 raise Exception('not support current data type of hat_y, y')
             _shape_hat_y, _shape_y = np.shape(hat_y), np.shape(y)
             if _shape_hat_y != _shape_y:
-                raise Exception('the data shape is not inconformity between y and hey_y')
+                raise Exception('the data shape is not inconformity between y '
+                                'and hat_y')
 
         label_n_check = set([])
         label_item_set = set([])
@@ -84,7 +98,7 @@ def label_check(y, hat_y = None, assign_task_type = None):
             raise Exception('label_n is inconformity in data')
 
         if len(label_item_set) <= 1:
-            raise Exception('value space size <=1 is unvalid')
+            raise Exception('value space size <=1 is invalid')
         elif len(label_item_set) == 2:
             if 0 in label_item_set and 1 in label_item_set:
                 if list(label_n_check)[0] == 1:
@@ -105,16 +119,20 @@ def label_check(y, hat_y = None, assign_task_type = None):
 
     pre_task_type = check_task_type(y, hat_y)
     if assign_task_type != None:
-        if assign_task_type in ['binaryclass', 'multilabel', 'multiclass', 'regression']:
+        if assign_task_type in ['binaryclass', 'multilabel', 'multiclass',
+                                'regression']:
             if assign_task_type == pre_task_type:
                 task_type = pre_task_type
             else:
-                raise Exception('current data not support the filled task-type {0}, task-type {1} is suggested'\
-                                .format(assign_task_type, pre_task_type))                
+                raise Exception(
+                    'current data not support the filled task-type {0}, '
+                    'task-type {1} is suggested' \
+                        .format(assign_task_type, pre_task_type))
         else:
-            raise Exception('fill in correct task-type [\'binaryclass\', \'multilabel\', \'multiclass\', \'regression\'], \
-                                or Without fill in Anyvalue')
+            raise Exception('fill in correct task-type [\'binaryclass\', '
+                            '\'multilabel\', \'multiclass\', \'regression\'], \
+                            or Without fill in Anyvalue')
     else:
         task_type = pre_task_type
-        
+
     return task_type
