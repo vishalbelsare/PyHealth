@@ -208,17 +208,17 @@ class TestSequentialModel(unittest.TestCase):
         assert True not in np.isnan(pred_results['hat_y']).tolist()
         assert True not in np.isnan(pred_results['hat_y'] * 0).tolist()
 
-    def test_03_delete(self):
-        shutil.rmtree(os.path.join('experiments_data', self.expdata_id))
-        shutil.rmtree(os.path.join('experiments_records', 'test.lstm.cpu'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.lstm.gpu'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.gru'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.embedgru'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.dipole'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.retain'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.raim'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.tlstm'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.stagenet'))
-        shutil.rmtree(os.path.join('experiments_records', 'test.xgboost'))
-        shutil.rmtree(
-            os.path.join('experiments_records', 'test.randomforest'))
+    # def test_03_delete(self):
+    #     shutil.rmtree(os.path.join('experiments_data', self.expdata_id))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.lstm.cpu'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.lstm.gpu'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.gru'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.embedgru'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.dipole'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.retain'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.raim'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.tlstm'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.stagenet'))
+    #     shutil.rmtree(os.path.join('experiments_records', 'test.xgboost'))
+    #     shutil.rmtree(
+    #         os.path.join('experiments_records', 'test.randomforest'))
