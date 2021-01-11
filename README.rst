@@ -302,7 +302,6 @@ Neural Networks      Densenet          pyhealth.models.sequence.typicalcnn      
 Neural Networks      Mobilenet         pyhealth.models.sequence.typicalcnn       MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications
 ===================  ================  ========================================  ======================================================================================================  =====  ========================================
 
-
 **For ecg/egg data**:
 
 ===================  ================  ========================================  ========================================================================================================  =====  ========================================
@@ -311,13 +310,29 @@ Type                 Abbr              Class                                    
 Classical Models     RandomForest      pyhealth.models.ecg.rf                    Random Forests                                                                                            2000   [#Breiman2001Random]_
 Classical Models     XGBoost           pyhealth.models.ecg.xgboost               XGBoost: A scalable tree boosting system                                                                  2016   [#Chen2016Xgboost]_
 Neural Networks      BasicCNN1D        pyhealth.models.ecg.conv1d                Face recognition: A convolutional neural-network approach                                                 1997   [#Lawrence1997Face]_
-Neural Networks      DBLSTM-WS         pyhealth.models.ecg.dblstm_ws             A novel wavelet sequence based on deep bidirectional LSTM network model for ECG signal classification     2018
-Neural Networks      DeepRes1D         pyhealth.models.ecg.deepres1d             Heartbeat classification using deep residual convolutional neural network from 2-lead electrocardiogram   2019
-Neural Networks      AE+BiLSTM         pyhealth.models.ecg.sdaelstm              Automatic Classification of CAD ECG Signals With SDAE and Bidirectional Long Short-Term Network           2019
-Neural Networks      KRCRnet           pyhealth.models.ecg.rcrnet                K-margin-based Residual-Convolution-Recurrent Neural Network for Atrial Fibrillation Detection            2019
-Neural Networks      MINA              pyhealth.models.ecg.mina                  MINA: Multilevel Knowledge-Guided Attention for Modeling Electrocardiography Signals                      2019
+Neural Networks      DBLSTM-WS         pyhealth.models.ecg.dblstm_ws             A novel wavelet sequence based on deep bidirectional LSTM network model for ECG signal classification                                                 2018   [#Ozal2018DBLSTM-WS]
+Neural Networks      DeepRes1D         pyhealth.models.ecg.deepres1d             Heartbeat classification using deep residual convolutional neural network from 2-lead electrocardiogram   2019 [#Li2020DeepRes1D]_
+Neural Networks      AE+BiLSTM         pyhealth.models.ecg.sdaelstm              Automatic Classification of CAD ECG Signals With SDAE and Bidirectional Long Short-Term Network           2019 [#Wang2019SDAELSTM]_
+Neural Networks      KRCRnet           pyhealth.models.ecg.rcrnet                K-margin-based Residual-Convolution-Recurrent Neural Network for Atrial Fibrillation Detection            2019   [#Zhou2019KRes]_
+Neural Networks      MINA              pyhealth.models.ecg.mina                  MINA: Multilevel Knowledge-Guided Attention for Modeling Electrocardiography Signals                      2019   [#Hong2019MINA]_
 ===================  ================  ========================================  ========================================================================================================  =====  ========================================
 
+
+**For text data**:
+
+===================  ================  ========================================  ========================================================================================================  =====  ========================================
+Type                 Abbr              Class                                     Algorithm                                                                                                 Year   Ref
+===================  ================  ========================================  ========================================================================================================  =====  ========================================
+Classical Models     RandomForest      pyhealth.models.text.rf                    Random Forests                                                                                            2000   [#Breiman2001Random]_
+Classical Models     XGBoost           pyhealth.models.text.xgboost               XGBoost: A scalable tree boosting system                                                                  2016   [#Chen2016Xgboost]_
+Neural Networks      BidirectionalGRU  pyhealth.models.text.gru                   Gated recurrent unit                                                 
+1997   [#Lawrence1997Face]_
+Neural Networks      DR-CAML           pyhealth.models.text.dr_caml               Explainable Prediction of Medical Codes from Clinical Text
+2018
+Neural Networks      DCAN              pyhealth.models.text.dcan                  Dilated Convolutional Attention Network for Medical Code Assignment from Clinical Text         2019
+Neural Networks      JointLAAT         pyhealth.models.text.jointlaat             Automatic Classification of CAD ECG Signals With SDAE and Bidirectional Long Short-Term Network           2019
+Neural Networks      MultiResCNN       pyhealth.models.text.multirescnn           ICD Coding from Clinical Text Using Multi-Filter Residual Convolutional Neural Network            2019
+===================  ================  ========================================  ========================================================================================================  =====  ========================================
 
 Examples of running ML and DL models can be found below, or directly at \\examples\\learning_examples\\
 
@@ -526,3 +541,25 @@ Reference
 .. [#Ma2017Dipole] Ma, F., Chitta, R., Zhou, J., You, Q., Sun, T. and Gao, J., 2017, August. Dipole: Diagnosis prediction in healthcare via attention-based bidirectional recurrent neural networks. In Proceedings of the 23rd ACM SIGKDD international conference on knowledge discovery and data mining (pp. 1903-1911).
 
 .. [#Xu2018RAIM] Xu, Y., Biswal, S., Deshpande, S.R., Maher, K.O. and Sun, J., 2018, July. Raim: Recurrent attentive and intensive model of multimodal patient monitoring data. In Proceedings of the 24th ACM SIGKDD international conference on Knowledge Discovery & Data Mining (pp. 2565-2573).
+
+.. [#Mull2018DRCAML] Mullenbach, J., Wiegreffe, S., Duke, J., Sun, J., and Eisenstein, J., 2018, June. Explainable Prediction of Medical Codes from Clinical Text. In Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (pp. 1101--1111).
+
+.. [#Vu2020JointLAAT] Vu, T., Nguyen, D., and Nguyen, A., 2020, July. A Label Attention Model for ICD Coding from Clinical Text. In Proceedings of the Twenty-Ninth International Joint Conference on Artificial Intelligence, {IJCAI-20}(pp. 3335--3341).
+
+.. [#Ji2020DCAN] Ji, S., Cambria, E., and Marttinen, P., 2020, November. Dilated Convolutional Attention Network for Medical Code Assignment from Clinical Text. In Proceedings of 3rd Clinical Natural Language Processing Workshop at EMNLP, (pp. 73–78).
+
+.. [#Li2020Multi] Li, F., and Yu, H., 2020, November. ICD Coding from Clinical Text Using Multi-Filter Residual Convolutional Neural Network. In Proceedings of the Thirty-Fourth AAAI Conference on Artificial Intelligence, (pp. 8180-8187).
+
+.. [#Zhou2019KRes] Zhou, Y., Hong, S., Shang, J., Wu, M., Wang, Q., Li, H., and Xie, J., 2019, Auguest. K-margin-based Residual-Convolution-Recurrent Neural Network for Atrial Fibrillation Detection. In Proceedings of International Joint Conference on Artificial Intelligence (IJCAI), (pp. 6057-6063).
+
+.. [#Hong2019MINA] Hong, S., Xiao, C., Ma, T., Li, H., and Sun, J., 2019, Auguest. Multilevel Knowledge-Guided Attention for Modeling Electrocardiography Signals. In Proceedings of International Joint Conference on Artificial Intelligence (IJCAI), (pp. 5888--5894).
+
+.. [#Ozal2018DBLSTM-WS] Özal Yildirim, 2018. A novel wavelet sequence based on deep bidirectional LSTM network model for ECG signal classification. Computers in Biology and Medicine, (189-202(96):0010-4825).
+
+.. [#Saman2018DenseConv] Saman P., Jonathan R., Asif R., Bryan C., and Saeed B., 2018, Auguest. Analyzing single-lead short {ECG} recordings using dense convolutional neural networks and feature-based post-processing to detect atrial fibrillation. Physiological Measurement, (23-39(8):084003).
+
+.. [#Li2020DeepRes1D] Li, Z., Zhou, D., Wan, L., Li, J., and Mou, W., 2020, January. Heartbeat classification using deep residual convolutional neural network from 2-lead electrocardiogram. Journal of Electrocardiology, (105-112(58)).
+
+.. [#Wang2019SDAELSTM] Wang, E., Zhang, X., and Pan, L., 2019. Automatic Classification of CAD ECG Signals With SDAE and Bidirectional Long Short-Term Network. IEEE Access, (182873-182880(7).
+
+
