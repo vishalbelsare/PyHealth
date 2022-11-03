@@ -118,4 +118,4 @@ docs/build/
 # /docs/api/tasks/
 
 # leaderboard credentials
-leaderboard/credentials.json
+*.json
